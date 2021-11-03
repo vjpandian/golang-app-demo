@@ -93,6 +93,7 @@ workflows:
   main:
     jobs:
       - build
+      - deploy
       - test1:
           requires:
             - build
@@ -105,4 +106,5 @@ workflows:
       - test4:
           requires:
             - build
+      
 
