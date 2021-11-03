@@ -11,10 +11,10 @@ jobs:
     - checkout 
     - run: aws s3 ls
     - run: |
-        sudo aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin 660990364978.dkr.ecr.ca-central-1.amazonaws.com
-        sudo docker build -t golang-repo .
-        sudo docker tag golang-repo:latest 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
-        sudo docker push 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
+        aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin 660990364978.dkr.ecr.ca-central-1.amazonaws.com
+        docker build -t golang-repo .
+        docker tag golang-repo:latest 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
+        docker push 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
 
   build:
     docker:
