@@ -9,80 +9,71 @@ jobs:
     steps:
     - checkout 
     - run: aws --version 
-    - run: aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin 660990364978.dkr.ecr.ca-central-1.amazonaws.com
-    - run: docker build --no-cache -t golang-repo -f ./Dockerfile .
-    - run: docker tag golang-repo:latest 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
-    - run: docker push 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
+    - run: 
+        name: Login to ECR
+        command: aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin 660990364978.dkr.ecr.ca-central-1.amazonaws.com
+    - run: 
+        name: Build Docker Image
+        command: docker build --no-cache -t golang-repo -f ./Dockerfile .
+    - run: 
+        name: Tag Docker Image
+        command: docker tag golang-repo:latest 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
+    - run: 
+        name: Push Image to ECR
+        command: docker push 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
 
-  build:
+  test1:
+    description: "Run tests with jest"
     docker:
-      - image: circleci/golang:1.14
-    working_directory: ~/golang-example-app
+      - image: circleci/node:12
     steps:
       - checkout
-      - run:
-          name: Fetch dependencies
-          command: go mod download
-      - run:
-          name: Building
-          command: |
-            VERSION=${CIRCLE_TAG}
-            GOOS=linux GOARCH=amd64 go build -ldflags "-X main.Version=${VERSION}" -o bin/app-${VERSION}-linux-amd64 main.go
-            GOOS=darwin GOARCH=amd64 go build -ldflags "-X main.Version=${VERSION}" -o bin/app-${VERSION}-darwin-amd64 main.go
-      - persist_to_workspace:
-          root: .
-          paths:
-            - bin
-  test:
+      - run: npm install
+      - run: npm test
+
+  test2:
+    description: "Run tests with jest"
     docker:
-      - image: circleci/golang:1.14
-    parallelism: 11
-    working_directory: ~/golang-example-app
+      - image: circleci/node:12
     steps:
       - checkout
-      - run:
-          name: "Setup APP_WD"
-          command: echo 'export APP_WD="$(cd ${CIRCLE_WORKING_DIRECTORY}; pwd)/resources"' >> $BASH_ENV
-      - run:
-          name: Fetch dependencies
-          command: go mod download
-      - run:
-          name: Test
-          command: go test ./... 
+      - run: npm install
+      - run: npm test
 
-  publish-github-release:
+  test3:
+    description: "Run tests with jest"
     docker:
-      - image: cibuilds/github:0.13
+      - image: circleci/node:12
     steps:
-      - attach_workspace:
-          at: ~/golang-example-app
-      #- run:
-      #    name: "Publish Release on GitHub"
-      #    command: |
-      #      VERSION=${CIRCLE_TAG}
-      #      ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ~/golang-example-app/bin
+      - checkout
+      - run: npm install
+      - run: npm test
+
+  test4:
+    description: "Run tests with jest"
+    docker:
+      - image: circleci/node:12
+    parallelism: 3
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm test
+
 workflows:
   version: 2
   main:
     jobs:
-      - build-runner
-      #- aws-ecr/build-and-push-image:
-      #    repo: golang-repo
-      #    tag: 'latest'
-      #- test:
-      #    requires:
-      #      - build
-      #    filters:
-      #      branches:
-      #        ignore: /.*/
-      #      tags:
-      #        only: /^v\d+\.\d+\.\d+.*/
-      #- publish-github-release:
-      #    requires:
-      #      - build
-      #    filters:
-      #      branches:
-      #        ignore: /.*/
-      #      tags:
-      #        only: /^v\d+\.\d+\.\d+.*/
+      - build
+      - test1:
+          requires:
+            - build
+      - test2:
+          requires:
+            - build
+      - test3:
+          requires:
+            - build
+      - test4:
+          requires:
+            - build
 
