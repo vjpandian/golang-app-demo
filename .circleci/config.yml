@@ -67,9 +67,6 @@ jobs:
     resource_class: vijay/3x-linux-ec2
     steps:
       - checkout
-      #- add_ssh_keys:
-      #   fingerprints:
-      #     - "6c:21:38:86:88:27:bf:de:e4:a2:63:df:59:22:dc:ea"
       - run: 
           name: Deploy Docker Image
           command: |
@@ -77,15 +74,7 @@ jobs:
              aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin 660990364978.dkr.ecr.ca-central-1.amazonaws.com
              docker pull $SERVER_IMAGE
              docker container run -d --restart unless-stopped --name $CONTAINER_NAME -dit -p 8080:80 $SERVER_IMAGE
-      #- run: 
-      #    name: Deploy Docker Image
-      #    command: |
-      #       ssh $AWS_EC2_SSH \<< EOF
-      #       docker stop $CONTAINER_NAME || true && docker rm $CONTAINER_NAME || true
-      #       aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin 660990364978.dkr.ecr.ca-central-1.amazonaws.com
-      #       docker pull $SERVER_IMAGE
-      #       docker container run -d --restart unless-stopped --name $CONTAINER_NAME -dit -p 8080:80 $SERVER_IMAGE
-      #       EOF
+
             
 
 workflows:
@@ -107,7 +96,6 @@ workflows:
             - build
       - deploy:
           requires:
-            - build
             - test1
             - test2
             - test3
