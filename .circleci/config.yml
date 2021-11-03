@@ -9,7 +9,7 @@ jobs:
     resource_class: vijay/3x-linux-ec2
     steps:
     - checkout 
-    - run: aws s3 ls
+    - run: ls -lah
     - run: aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin 660990364978.dkr.ecr.ca-central-1.amazonaws.com
     - run: docker build -t golang-repo .
     - run: docker tag golang-repo:latest 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
