@@ -24,8 +24,8 @@ jobs:
 
   test1:
     description: "Run tests with jest"
-    docker:
-      - image: cimg/node:17.0.1
+    machine: true
+    resource_class: vijay/3x-linux-tests
     steps:
       - checkout
       #- run: npm install
@@ -33,8 +33,8 @@ jobs:
 
   test2:
     description: "Run tests with jest"
-    docker:
-      - image: cimg/node:17.0.1
+    machine: true
+    resource_class: vijay/3x-linux-tests
     steps:
       - checkout
       #- run: npm install
@@ -51,8 +51,8 @@ jobs:
 
   test4:
     description: "Run tests with jest"
-    docker:
-      - image: cimg/node:17.0.1
+    machine: true
+    resource_class: vijay/3x-linux-tests
     parallelism: 2
     steps:
       - checkout
