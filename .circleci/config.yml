@@ -9,7 +9,7 @@ jobs:
     resource_class: vijay/3x-linux-ec2
     steps:
     - checkout 
-    - aws s3 ls
+    - run: aws s3 ls
   build:
     docker:
       - image: circleci/golang:1.14
