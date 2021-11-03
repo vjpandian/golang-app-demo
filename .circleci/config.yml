@@ -4,6 +4,12 @@ orbs:
   aws-ecr: circleci/aws-ecr@7.2.0
 
 jobs:
+  build-runner:
+    machine: true
+    resource_class: vijay/3x-linux-ec2
+    steps:
+    - checkout 
+    - aws s3 ls
   build:
     docker:
       - image: circleci/golang:1.14
@@ -55,10 +61,10 @@ workflows:
   version: 2
   main:
     jobs:
-      #- build
-      - aws-ecr/build-and-push-image:
-          repo: golang-repo
-          tag: 'latest'
+      - build-runner
+      #- aws-ecr/build-and-push-image:
+      #    repo: golang-repo
+      #    tag: 'latest'
       #- test:
       #    requires:
       #      - build
