@@ -42,8 +42,8 @@ jobs:
 
   test3:
     description: "Run tests with jest"
-    docker:
-      - image: cimg/node:17.0.1
+    machine: true
+    resource_class: vijay/3x-linux-tests
     steps:
       - checkout
       #- run: npm install
