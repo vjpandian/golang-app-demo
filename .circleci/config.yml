@@ -10,9 +10,9 @@ jobs:
     - checkout 
     - run: aws --version 
     - run: aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin 660990364978.dkr.ecr.ca-central-1.amazonaws.com
-    #- run: docker build --no-cache -t golang-repo -f ./Dockerfile-dev .
-    #- run: docker tag golang-repo:latest 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
-    #- run: docker push 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
+    - run: docker build --no-cache -t golang-repo -f ./Dockerfile-dev .
+    - run: docker tag golang-repo:latest 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
+    - run: docker push 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
 
   build:
     docker:
