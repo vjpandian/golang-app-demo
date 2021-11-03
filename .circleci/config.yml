@@ -57,7 +57,6 @@ workflows:
     jobs:
       #- build
       - aws-ecr/build-and-push-image:
-          account-url: 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo
           repo: golang-repo
           tag: 'latest'
       #- test:
@@ -77,13 +76,3 @@ workflows:
       #      tags:
       #        only: /^v\d+\.\d+\.\d+.*/
 
-
-orbs:
-  aws-ecr: circleci/aws-ecr@7.2.0
-workflows:
-  build_and_push_image:
-    jobs:
-      - aws-ecr/build-and-push-image:
-          account-url: 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo
-          repo: golang-repo
-          tag: 'latest'
