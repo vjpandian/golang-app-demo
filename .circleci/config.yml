@@ -25,39 +25,39 @@ jobs:
   test1:
     description: "Run tests with jest"
     docker:
-      - image: circleci/node:12
+      - image: cimg/node:17.0.1
     steps:
       - checkout
-      - run: npm install
-      - run: npm test
+      #- run: npm install
+      #- run: npm test
 
   test2:
     description: "Run tests with jest"
     docker:
-      - image: circleci/node:12
+      - image: cimg/node:17.0.1
     steps:
       - checkout
-      - run: npm install
-      - run: npm test
+      #- run: npm install
+      #- run: npm test
 
   test3:
     description: "Run tests with jest"
     docker:
-      - image: circleci/node:12
+      - image: cimg/node:17.0.1
     steps:
       - checkout
-      - run: npm install
-      - run: npm test
+      #- run: npm install
+      #- run: npm test
 
   test4:
     description: "Run tests with jest"
     docker:
-      - image: circleci/node:12
-    parallelism: 3
+      - image: cimg/node:17.0.1
+    parallelism: 2
     steps:
       - checkout
-      - run: npm install
-      - run: npm test
+      #- run: npm install
+      #- run: npm test
 
   deploy:
     environment:
