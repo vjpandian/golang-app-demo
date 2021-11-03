@@ -1,5 +1,0 @@
-p, reader, users, read
-p, owner, users, write
-
-g, reader, anonymous
-g, owner, reader
