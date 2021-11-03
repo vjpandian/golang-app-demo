@@ -53,7 +53,6 @@ jobs:
     description: "Run tests with jest"
     machine: true
     resource_class: vijay/3x-linux-tests
-    parallelism: 2
     steps:
       - checkout
       #- run: npm install
