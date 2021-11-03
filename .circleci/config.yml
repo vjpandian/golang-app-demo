@@ -23,7 +23,7 @@ jobs:
         command: docker push 660990364978.dkr.ecr.ca-central-1.amazonaws.com/golang-repo:latest
 
   test1:
-    description: "Run tests with jest"
+    description: "Run tests with jest.."
     machine: true
     resource_class: vijay/3x-linux-tests
     steps:
