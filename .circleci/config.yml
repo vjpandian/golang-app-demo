@@ -1,16 +1,15 @@
 version: 2.1
 orbs:
-   docker: circleci/docker@1.7.0
+  docker: circleci/docker@1.7.0
 jobs:
   example-job:
      docker:
-        - image: cimg/base:stable
+       - image: cimg/base:stable
      steps:
        - docker/pull:
-            images: cimg/node
+            images: node
        - run: node --version
-
 workflows:
    example-workflow:
-      jobs:
-        - example-job
+        jobs:
+          - example-job
